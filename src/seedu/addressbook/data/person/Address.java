@@ -14,10 +14,10 @@ public class Address {
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
 
-    private final Block block;
-    private final Street street;
-    private final Unit unit;
-    private final PostalCode postalCode;
+    private final AddressBlock block;
+    private final AddressStreet street;
+    private final AddressUnit unit;
+    private final AddressPostalCode postalCode;
     private boolean isPrivate;
 
     /**
@@ -32,10 +32,10 @@ public class Address {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
         String[] addressParts = address.split(",");
-        this.block = new Block(this.getElementElseDefault(addressParts, 0, "").trim());
-        this.street = new Street(this.getElementElseDefault(addressParts, 1, "").trim());
-        this.unit = new Unit(this.getElementElseDefault(addressParts, 2, "").trim());
-        this.postalCode = new PostalCode(this.getElementElseDefault(addressParts, 3, "").trim());
+        this.block = new AddressBlock(this.getElementElseDefault(addressParts, 0, "").trim());
+        this.street = new AddressStreet(this.getElementElseDefault(addressParts, 1, "").trim());
+        this.unit = new AddressUnit(this.getElementElseDefault(addressParts, 2, "").trim());
+        this.postalCode = new AddressPostalCode(this.getElementElseDefault(addressParts, 3, "").trim());
     }
 
     /**
@@ -99,57 +99,5 @@ public class Address {
             return defaultValue;
         }
         return arr[index];
-    }
-}
-
-class Block {
-    private final String value;
-
-    public Block (String block) {
-        this.value = block;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-}
-
-class Street {
-    private final String value;
-
-    public Street (String street) {
-        this.value = street;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-}
-
-class Unit {
-    private final String value;
-
-    public Unit (String unit) {
-        this.value = unit;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-}
-
-class PostalCode {
-    private final String value;
-
-    public PostalCode (String postalCode) {
-        this.value = postalCode;
-    }
-
-    @Override
-    public String toString() {
-        return value;
     }
 }
