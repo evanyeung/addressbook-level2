@@ -16,16 +16,10 @@ import java.util.Scanner;
  */
 public class TextUi {
 
-    /** A decorative prefix added to the beginning of lines printed by AddressBook */
-    private static final String LINE_PREFIX = "|| ";
-
-    /** A platform independent line separator. */
-    private static final String LS = System.lineSeparator();
-
-    private static final String DIVIDER = "===================================================";
-
     /** Format of a comment input line. Comment lines are silently consumed when reading user input. */
     private static final String COMMENT_LINE_FORMAT_REGEX = "#.*";
+
+    private static final String DIVIDER = "===================================================";
 
     private final Scanner in;
     private final PrintStream out;
@@ -67,7 +61,7 @@ public class TextUi {
      * @return command (full line) entered by the user
      */
     public String getUserCommand() {
-        out.print(LINE_PREFIX + "Enter command: ");
+        out.print(Formatter.getUserPrompt());
         String fullInputLine = in.nextLine();
 
         // silently consume all ignored lines
@@ -75,12 +69,12 @@ public class TextUi {
             fullInputLine = in.nextLine();
         }
 
-        showToUser("[Command entered:" + fullInputLine + "]");
+        showToUser(Formatter.formatEchoOfUserCommand(fullInputLine));
         return fullInputLine;
     }
 
     public void showWelcomeMessage(String version, String storageFilePath) {
-        String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, storageFilePath);
+        String storageFileInfo = Formatter.formatUsingStorageFileMessage(storageFilePath);
         showToUser(
                 DIVIDER,
                 DIVIDER,
@@ -103,7 +97,7 @@ public class TextUi {
     /** Shows message(s) to the user */
     public void showToUser(String... message) {
         for (String m : message) {
-            out.println(LINE_PREFIX + m.replace("\n", LS + LINE_PREFIX));
+            out.println(Formatter.formatSingleLine(m));
         }
     }
 
