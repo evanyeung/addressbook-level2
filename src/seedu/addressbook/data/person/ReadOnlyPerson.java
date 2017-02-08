@@ -14,6 +14,8 @@ public interface ReadOnlyPerson {
     Email getEmail();
     Address getAddress();
 
+    String getPrintableString(Printable... printables);
+
     /**
      * The returned TagList is a deep copy of the internal TagList,
      * changes on the returned list will not affect the person's internal tags.
