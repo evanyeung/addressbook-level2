@@ -18,15 +18,24 @@ public class UtilsTest {
         assertFalse(Utils.isAnyNull(new Object(), new Object()));
         assertFalse(Utils.isAnyNull("test"));
         assertFalse(Utils.isAnyNull(""));
+        assertFalse(Utils.isAnyNull(1));
+        assertFalse(Utils.isAnyNull(1.0));
+        assertFalse(Utils.isAnyNull(true));
+        assertFalse(Utils.isAnyNull(false));
+        assertFalse(Utils.isAnyNull(void.class));
+        boolean[] nonNullBoolArgList = new boolean[100];
+        assertFalse(Utils.isAnyNull(nonNullBoolArgList));
 
         // non empty list with just one null at the beginning
         assertTrue(Utils.isAnyNull((Object) null));
         assertTrue(Utils.isAnyNull(null, "", new Object()));
         assertTrue(Utils.isAnyNull(null, new Object(), new Object()));
+        assertTrue(Utils.isAnyNull(null, 1, "test", true));
 
         // non empty list with nulls in the middle
         assertTrue(Utils.isAnyNull(new Object(), null, null, "test"));
         assertTrue(Utils.isAnyNull("", null, new Object()));
+        assertTrue(Utils.isAnyNull("", true, true, null, 1, 0));
 
         // non empty list with one null as the last element
         assertTrue(Utils.isAnyNull("", new Object(), null));
@@ -47,10 +56,15 @@ public class UtilsTest {
         assertAreUnique(1);
         assertAreUnique("");
         assertAreUnique("abc");
+        assertAreUnique(false);
+        assertAreUnique(true);
 
         // all objects unique
         assertAreUnique("abc", "ab", "a");
         assertAreUnique(1, 2);
+        assertAreUnique(true, false);
+        assertAreUnique(false, true);
+        assertAreUnique(1, null);
 
         // some identical objects
         assertNotUnique("abc", "abc");
@@ -60,6 +74,8 @@ public class UtilsTest {
         assertNotUnique(null, 1, new Integer(1));
         assertNotUnique(null, null);
         assertNotUnique(null, "a", "b", null);
+        assertNotUnique(true, true);
+        assertNotUnique(false, true, false);
     }
 
     private void assertAreUnique(Object... objects) {
